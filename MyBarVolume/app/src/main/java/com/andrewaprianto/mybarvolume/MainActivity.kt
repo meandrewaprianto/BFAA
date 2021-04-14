@@ -6,29 +6,22 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.andrewaprianto.mybarvolume.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var edtWidth: EditText
-    private lateinit var edtHeight: EditText
-    private lateinit var edtLength: EditText
-    private lateinit var btnCalculate: Button
-    private lateinit var tvResult: TextView
 
     companion object {
         private const val STATE_RESULT = "state_result"
     }
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        edtWidth = findViewById(R.id.edt_width)
-        edtHeight = findViewById(R.id.edt_height)
-        edtLength = findViewById(R.id.edt_length)
-        btnCalculate = findViewById(R.id.btn_calcuate)
-        tvResult = findViewById(R.id.tv_result)
-
-        btnCalculate.setOnClickListener(this)
+        binding.btnCalculate.setOnClickListener(this)
 
         //Can be using with this method too
 //        btnCalculate.setOnClickListener {
@@ -39,43 +32,42 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         if(savedInstanceState != null){
             val result = savedInstanceState.getString(STATE_RESULT)
-            tvResult.text = result
+            binding.tvResult.text = result
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(STATE_RESULT, tvResult.text.toString())
+        outState.putString(STATE_RESULT, binding.tvResult.text.toString())
     }
 
     override fun onClick(v: View) {
-        if(v.id == R.id.btn_calcuate) {
+        if(v.id == R.id.btn_calculate) {
             //trim (remove space in inputtext)
-            val inputLength = edtLength.text.toString().trim()
-            val inputWidth = edtWidth.text.toString().trim()
-            val inputHeight = edtHeight.text.toString().trim()
+            val inputLength = binding.edtLength.text.toString().trim()
+            val inputWidth = binding.edtWidth.text.toString().trim()
+            val inputHeight = binding.edtHeight.text.toString().trim()
 
             var isEmptyField = false
 
             if(inputLength.isEmpty()){
                 isEmptyField = true
-                edtLength.error = "Field ini tidak boleh kosong!"
+                binding.edtLength.error = "Field ini tidak boleh kosong!"
             }
 
             if(inputWidth.isEmpty()){
                 isEmptyField = true
-                edtWidth.error = "Field ini tidak boleh kosong!"
+                binding.edtWidth.error = "Field ini tidak boleh kosong!"
             }
 
             if(inputHeight.isEmpty()){
                 isEmptyField = true
-                edtHeight.error = "Field ini tidak boleh kosong!"
+                binding.edtHeight.error = "Field ini tidak boleh kosong!"
             }
 
             if(!isEmptyField){
                 val volume = inputLength.toDouble() * inputWidth.toDouble() * inputHeight.toDouble()
-                tvResult.text = volume.toString()
+                binding.tvResult.text = volume.toString()
             }
         }
     }
