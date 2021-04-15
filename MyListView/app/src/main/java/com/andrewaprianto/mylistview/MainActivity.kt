@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.andrewaprianto.mylistview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,18 +17,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataPhoto: TypedArray
     private var heroes = arrayListOf<Hero>()
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val listView: ListView = findViewById(R.id.lv_list)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 //        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, dataName)
         adapter = HeroAdapter(this)
-        listView.adapter = adapter
+        binding.lvList.adapter = adapter
 
         prepare()
         addItem()
 
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+        binding.lvList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             Toast.makeText(this@MainActivity, heroes[position].name, Toast.LENGTH_SHORT).show()
         }
     }

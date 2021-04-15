@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.andrewaprianto.mylistview.databinding.ItemHeroBinding
 
 class HeroAdapter constructor(private val context: Context): BaseAdapter() {
     var heroes = arrayListOf<Hero>()
@@ -30,14 +31,11 @@ class HeroAdapter constructor(private val context: Context): BaseAdapter() {
     }
 
     class ViewHolder constructor(view: View){
-        private val txtName: TextView = view.findViewById(R.id.txt_name)
-        private val txtDescription: TextView = view.findViewById(R.id.txt_description)
-        private val imgPhoto: ImageView = view.findViewById(R.id.img_photo)
-
+        private val binding = ItemHeroBinding.bind(view)
         fun bind(hero: Hero){
-            txtName.text = hero.name
-            txtDescription.text = hero.description
-            imgPhoto.setImageResource(hero.photo)
+            binding.txtName.text = hero.name
+            binding.txtDescription.text = hero.description
+            binding.imgPhoto.setImageResource(hero.photo)
         }
     }
 }
